@@ -17,7 +17,6 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
-//app.set('view-engine', 'jade');
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL, {
@@ -32,7 +31,9 @@ connection.once('open', () => {
 
 // Routers
 const users = require('./routes/users');
+const tickets = require('./routes/tickets');
 app.use('/api/', users);
+app.use('/api/tickets', passport.authenticate('jwt', { session: false }), tickets);
 
 // Catch 404 errors
 app.use((req, res, next) => {

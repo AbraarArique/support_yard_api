@@ -41,11 +41,18 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordExpires: {
     type: Date
+  },
+  isCustomer: {
+    type: Boolean,
+    required: true
+  },
+  isAgent: {
+    type: Boolean,
+    required: true
   }
 }, { timestamps: true });
 
-hasMany(userSchema, 'Order', 'orders', 'userId');
-hasMany(userSchema, 'CourseAccess', 'courseAccesses', 'userId');
+hasMany(userSchema, 'Ticket', 'tickets', 'userId');
 
 userSchema.pre('save', async function(next) {
   if (this.password.length < 8) {
