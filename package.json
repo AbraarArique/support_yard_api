@@ -2,9 +2,9 @@
   "name": "support_yard",
   "version": "1.0.0",
   "description": "A REST API back-end for a customer support ticketing app",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Abraar Arique (ProgrammingPark.com)",
   "license": "ISC",
