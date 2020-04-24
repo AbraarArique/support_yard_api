@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const { formatErr, secureParams, updateDoc } = require('./helpers');
 
 const dashboard = async (req, res) => {
   const user = req.user;
