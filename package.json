@@ -1,5 +1,5 @@
 {
-  "name": "support_yard",
+  "name": "support_yard_api",
   "version": "1.0.0",
   "description": "A REST API back-end for a customer support ticketing app",
   "main": "app.js",
