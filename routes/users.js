@@ -20,7 +20,7 @@ const update = async (req, res) => {
   try {
     const user = req.user;
     if (await user.validPassword(req.body.password)) {
-      updateDoc(user, userParams(req.body));
+      updateDoc(user, secureParams(req.body, whitelist));
       const newPass = req.body.newPassword;
       user.password = newPass ? newPass : req.body.password;
       await user.save();
@@ -80,17 +80,15 @@ const createToken = (user) => {
   return token;
 }
 
-const userParams = params => {
-  return secureParams(params, [
-    'firstName',
-    'lastName',
-    'username',
-    'phoneNumber',
-    'address',
-    'bio',
-    'email'
-  ]);
-}
+const whitelist = [
+  'firstName',
+  'lastName',
+  'username',
+  'phoneNumber',
+  'address',
+  'bio',
+  'email'
+];
 
 router.get('/', passport.authenticate('jwt', { session: false }), dashboard);
 router.patch('/account', passport.authenticate('jwt', { session: false }), update);

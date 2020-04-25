@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const Ticket = require('../models/ticket');
+const Message = require('../models/message');
 const messages = require('./messages');
-const { err, secureParams, updateDoc } = require('./helpers');
+const { err, secureParams, updateDoc, getTicket } = require('./helpers');
 
 const index = async (req, res) => {
   try {
@@ -17,8 +18,7 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    const user = req.user;
-    const [ticket] = await user.tickets({ id: req.params.ticketId });
+    const ticket = await getTicket(req.user, req.params.ticketId);
     const messages = await ticket.messages();
     const data = { ticket, messages };
     res.status(200).json(data);
@@ -30,7 +30,7 @@ const show = async (req, res) => {
 const create = async (req, res) => {
   try {
     const user = req.user;
-    const ticket = new Ticket(ticketParams(req.body));
+    const ticket = new Ticket(secureParams(req.body, whitelist));
     ticket.userId = req.user._id;
     await ticket.save();
     res.status(200).json(ticket);
@@ -48,12 +48,10 @@ const all = async (req, res) => {
   }
 }
 
-const ticketParams = params => {
-  return secureParams(params, [
-    'subject',
-    'details'
-  ]);
-}
+const whitelist = [
+  'subject',
+  'details'
+];
 
 const verifyUser = (type) => {
   const handler = (req, res, next) => {
@@ -69,7 +67,7 @@ const verifyUser = (type) => {
 router.get('/', verifyUser('isCustomer'), index);
 router.post('/', verifyUser('isCustomer'), create);
 router.get('/all', verifyUser('isAgent'), all);
-router.get('/:ticketId', verifyUser('isCustomer'), show);
+router.get('/:ticketId', show);
 router.use('/:ticketId/messages', messages);
 
 module.exports = router;

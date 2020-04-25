@@ -1,3 +1,5 @@
+const Ticket = require('../models/ticket');
+
 const secureParams = (params, list) => {
   const safe = {};
   for (p in params) {
@@ -8,10 +10,10 @@ const secureParams = (params, list) => {
   return safe;
 }
 
-const updateDoc = (doc, params) => {
-  for (p in params) {
-    doc[p] = params[p];
-  }
+const updateDoc = (doc, params, list) => {
+  list.forEach(i => {
+    doc[i] = params[i];
+  });
 }
 
 const err = (err, msg = 'Something went wrong.') => {
@@ -29,8 +31,19 @@ const err = (err, msg = 'Something went wrong.') => {
   }
 }
 
+const getTicket = async (user, id) => {
+  if (user.isCustomer) {
+    const [ticket] = await user.tickets({ _id: id });
+    return ticket;
+  } else if (user.isAgent) {
+    return await Ticket.findOne({ _id: id });
+  }
+  return null;
+}
+
 module.exports = {
   secureParams,
   updateDoc,
-  err
+  err,
+  getTicket
 };
