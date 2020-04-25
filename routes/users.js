@@ -4,7 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const { formatErr, secureParams, updateDoc } = require('./helpers');
+const { err, secureParams, updateDoc } = require('./helpers');
 
 const dashboard = async (req, res) => {
   const user = req.user;
@@ -26,10 +26,10 @@ const update = async (req, res) => {
       await user.save();
       res.status(200).json(user);
     } else {
-      res.status(401).json(formatErr(null, 'Password is incorrect.'));
+      res.status(401).json(err(null, 'Password is incorrect.'));
     }
   } catch (e) {
-    res.status(422).json(formatErr(e));
+    res.status(422).json(err(e));
   }
 }
 
@@ -62,10 +62,10 @@ const newPassword = async (req, res) => {
       await user.save();
       res.status(200).json(user.email);
     } else {
-      res.status(422).json(formatErr(null, 'This operation is not valid anymore.'));
+      res.status(422).json(err(null, 'This operation is not valid anymore.'));
     }
   } catch (e) {
-    res.status(422).json(formatErr(e));
+    res.status(422).json(err(e));
   }
 }
 

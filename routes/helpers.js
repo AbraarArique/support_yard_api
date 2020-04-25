@@ -14,7 +14,7 @@ const updateDoc = (doc, params) => {
   }
 }
 
-const formatErr = (err, msg = 'Something went wrong.') => {
+const err = (err, msg = 'Something went wrong.') => {
   if (err && err.name === 'ValidationError') {
     const errors = Object.keys(err.errors).map(k => {
       return err.errors[k].message
@@ -32,5 +32,5 @@ const formatErr = (err, msg = 'Something went wrong.') => {
 module.exports = {
   secureParams,
   updateDoc,
-  formatErr
+  err
 };

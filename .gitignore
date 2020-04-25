@@ -16,3 +16,4 @@ yarn-error.log*
 # Miscellaneous
 .DS_Store
 Procfile
+seed.js

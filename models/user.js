@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 hasMany(userSchema, 'Ticket', 'tickets', 'userId');
+hasMany(userSchema, 'Message', 'messages', 'userId');
 
 userSchema.pre('save', async function(next) {
   if (this.password.length < 8) {
@@ -60,6 +61,14 @@ userSchema.pre('save', async function(next) {
   }
   this.password = await bcrypt.hash(this.password, 10);
   next();
+});
+
+userSchema.pre('save', async function(next) {
+  if (this.isCustomer === this.isAgent) {
+    next(new Error('User must be either a customer or an agent.'));
+  } else {
+    next();
+  }
 });
 
 userSchema.methods.validPassword = async function(password) {

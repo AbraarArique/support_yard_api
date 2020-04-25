@@ -10,10 +10,15 @@ const messageSchema = new mongoose.Schema({
   ticketId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   }
 }, { timestamps: true });
 
 belongsTo(messageSchema, 'Ticket', 'ticket', 'ticketId');
+belongsTo(messageSchema, 'User', 'user', 'userId');
 
 const Message = mongoose.model('Message', messageSchema);
 
