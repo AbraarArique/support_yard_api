@@ -4,7 +4,7 @@ const User = require('./models/user');
 (async () => {
   try {
     console.log('Starting the seeding process...');
-    await User.insertMany([
+    const seed = [
       {
         email: 'c1@abc.com',
         password: 'c1password',
@@ -33,7 +33,12 @@ const User = require('./models/user');
         isCustomer: false,
         isAgent: true
       }
-    ]);
+    ];
+    seed.forEach(async (u, i) => {
+      const user = new User(u);
+      await user.save();
+      console.log(`User #${ i + 1 } added.`);
+    });
     console.log('Seeding completed successfully!');
   } catch (e) {
     console.log('An error occurred:');
