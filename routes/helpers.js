@@ -32,13 +32,8 @@ const err = (err, msg = 'Something went wrong.') => {
 }
 
 const getTicket = async (user, id) => {
-  if (user.isCustomer) {
-    const [ticket] = await user.tickets({ _id: id });
-    return ticket;
-  } else if (user.isAgent) {
-    return await Ticket.findOne({ _id: id });
-  }
-  return null;
+  const query = user.isCustomer ? { userId: user._id, _id: id } : { _id: id };
+  return await Ticket.findOne(query).populate('userId', 'email');
 }
 
 module.exports = {

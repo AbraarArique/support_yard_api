@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const { hasMany } = require('./helpers');
-
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String
@@ -51,9 +49,6 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 }, { timestamps: true });
-
-hasMany(userSchema, 'Ticket', 'tickets', 'userId');
-hasMany(userSchema, 'Message', 'messages', 'userId');
 
 userSchema.pre('save', async function(next) {
   if (this.password.length < 8) {

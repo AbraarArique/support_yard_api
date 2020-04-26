@@ -20,7 +20,6 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const ticket = await getTicket(req.user, req.params.ticketId);
     const message = await getMessage(req.user, req.params.messageId);
     updateDoc(message, req.body, whitelist);
     await message.save();
@@ -32,9 +31,7 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const ticket = await getTicket(req.user, req.params.ticketId);
-    const message = await getMessage(req.user, req.params.messageId);
-    await Message.deleteOne({ _id: message._id });
+    await Message.deleteOne({ userId: user._id, _id: req.params.messageId });
     res.status(200).json(message);
   } catch (e) {
     res.status(422).json(err(e));
@@ -42,8 +39,7 @@ const destroy = async (req, res) => {
 }
 
 const getMessage = async (user, id) => {
-  const [message] = await user.messages({ _id: id });
-  return message;
+  return await Message.findOne({ userId: user._id, _id: id });
 }
 
 const whitelist = [

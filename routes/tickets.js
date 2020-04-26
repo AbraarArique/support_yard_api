@@ -9,7 +9,7 @@ const { err, secureParams, updateDoc, getTicket } = require('./helpers');
 const index = async (req, res) => {
   try {
     const user = req.user;
-    const tickets = await user.tickets();
+    const tickets = await Ticket.find({ userId: user._id }).populate('userId', 'email');
     res.status(200).json(tickets);
   } catch (e) {
     res.status(400).json(err(e));
@@ -19,7 +19,7 @@ const index = async (req, res) => {
 const show = async (req, res) => {
   try {
     const ticket = await getTicket(req.user, req.params.ticketId);
-    const messages = await ticket.messages();
+    const messages = await Message.find({ ticketId: ticket._id }).populate('userId', 'email');
     const data = { ticket, messages };
     res.status(200).json(data);
   } catch (e) {
@@ -41,7 +41,7 @@ const create = async (req, res) => {
 
 const all = async (req, res) => {
   try {
-    const tickets = await Ticket.find({});
+    const tickets = await Ticket.find({}).populate('userId', 'email');
     res.status(200).json(tickets);
   } catch (e) {
     res.status(400).json(err(e));

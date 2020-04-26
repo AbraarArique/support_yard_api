@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const { hasMany, belongsTo } = require('./helpers');
-
 const ticketSchema = new mongoose.Schema({
   subject: {
     type: String,
@@ -12,12 +10,10 @@ const ticketSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'User'
   }
 }, { timestamps: true });
-
-belongsTo(ticketSchema, 'User', 'user', 'userId');
-hasMany(ticketSchema, 'Message', 'messages', 'ticketId');
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 
