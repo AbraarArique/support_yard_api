@@ -1,7 +1,7 @@
 require('./app');
 const User = require('./models/user');
 
-(async () => {
+await (async () => {
   try {
     console.log('Starting the seeding process...');
     const seed = [
