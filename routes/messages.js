@@ -31,8 +31,9 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    await Message.deleteOne({ userId: user._id, _id: req.params.messageId });
-    res.status(200).json(message);
+    const message = await Message.deleteOne({ userId: req.user._id, _id: req.params.messageId });
+    if (message.n < 1) throw new Error('Operation not permitted.');
+    res.status(200).json({});
   } catch (e) {
     res.status(422).json(err(e));
   }
