@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({
 }));
 
 passport.use(new JwtStrategy({
-  secretOrKey: process.env.JWT_SEC,
+  secretOrKey: process.env.SY_JWT_SEC,
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
 }, async (payload, done) => {
   try {

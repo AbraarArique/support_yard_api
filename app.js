@@ -10,7 +10,7 @@ require('dotenv').config();
 
 require('./passport.config.js');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.SY_PORT || 5000;
 const app = express();
 
 app.use(morgan('dev'));
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.SY_MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
