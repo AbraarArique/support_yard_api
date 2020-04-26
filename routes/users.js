@@ -76,7 +76,7 @@ const createToken = (user) => {
       email: user.email
     }
   };
-  const token = jwt.sign(data, process.env.JWT_SEC);
+  const token = jwt.sign(data, process.env.SY_JWT_SEC);
   return token;
 }
 
