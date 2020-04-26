@@ -1,9 +1,8 @@
 require('./app');
 const User = require('./models/user');
 
-await (async () => {
+(async () => {
   try {
-    console.log('Starting the seeding process...');
     const seed = [
       {
         email: 'c1@abc.com',
@@ -39,7 +38,6 @@ await (async () => {
       await user.save();
       console.log(`User #${ i + 1 } added.`);
     });
-    console.log('Seeding completed successfully!');
   } catch (e) {
     console.log('An error occurred:');
     console.log(e);
