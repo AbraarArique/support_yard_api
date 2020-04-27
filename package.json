@@ -4,7 +4,8 @@
   "description": "A REST API back-end for a customer support ticketing app",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "seed": "node seed.js"
   },
   "author": "Abraar Arique (ProgrammingPark.com)",
   "license": "ISC",

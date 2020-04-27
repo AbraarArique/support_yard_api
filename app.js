@@ -23,11 +23,19 @@ app.use(passport.initialize());
 mongoose.connect(process.env.SY_MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+})
+.catch(e => {
+  console.error(e);
 });
+
 const connection = mongoose.connection;
 
 connection.once('open', () => {
   console.log('MongoDB connection established');
+});
+
+connection.on('error', e => {
+  console.error(e);
 });
 
 // Routers
@@ -35,7 +43,7 @@ const users = require('./routes/users');
 const tickets = require('./routes/tickets');
 app.use('/api/', users);
 app.use('/api/tickets', passport.authenticate('jwt', { session: false }), tickets);
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).json({ message: 'Back-end API up and running.'});
 });
 
