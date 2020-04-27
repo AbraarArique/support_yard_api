@@ -9,7 +9,6 @@ const { err, secureParams, updateDoc } = require('./helpers');
 const dashboard = async (req, res) => {
   const user = req.user;
   if (user) {
-    user.password = '';
     res.status(200).json(user);
   } else {
     res.status(401);
@@ -34,8 +33,9 @@ const update = async (req, res) => {
 }
 
 const login = async (req, res) => {
-  const token = createToken(req.user);
-  res.status(200).json(token);
+  const user = req.user;
+  const token = createToken(user);
+  res.status(200).json({ user, token });
 }
 
 const resetPassword = async (req, res) => {

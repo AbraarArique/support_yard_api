@@ -20,8 +20,7 @@ const show = async (req, res) => {
   try {
     const ticket = await getTicket(req.user, req.params.ticketId);
     const messages = await Message.find({ ticketId: ticket._id }).populate('userId', 'email');
-    const data = { ticket, messages };
-    res.status(200).json(data);
+    res.status(200).json({ ticket, messages });
   } catch (e) {
     res.status(400).json(err(e));
   }

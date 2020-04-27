@@ -1,4 +1,17 @@
-require('./app');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+// MongoDB connection
+mongoose.connect(process.env.SY_MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+  console.log('MongoDB connection established');
+});
+
 const User = require('./models/user');
 
 (async () => {

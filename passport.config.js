@@ -15,6 +15,7 @@ passport.use(new LocalStrategy({
     if (!user || !(await user.validPassword(password))) {
       return done(null, false);
     } else {
+      user.password = '';
       return done(null, user);
     }
   } catch (err) {
@@ -31,6 +32,7 @@ passport.use(new JwtStrategy({
     if (!user) {
       return done(null, false);
     } else {
+      user.password = '';
       return done(null, user);
     }
   } catch (err) {

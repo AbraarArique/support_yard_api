@@ -35,6 +35,9 @@ const users = require('./routes/users');
 const tickets = require('./routes/tickets');
 app.use('/api/', users);
 app.use('/api/tickets', passport.authenticate('jwt', { session: false }), tickets);
+app.use('/', (req, res) => {
+  res.status(200).json({ message: 'Back-end API up and running.'});
+});
 
 // Catch 404 errors
 app.use((req, res, next) => {
