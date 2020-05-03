@@ -10,12 +10,17 @@ const connection = mongoose.connection;
 
 connection.once('open', () => {
   console.log('MongoDB connection established');
-  
+
+  const User = require('./models/user');
   const Ticket = require('./models/ticket');
   const Message = require('./models/message');
 
   console.log('Starting database cleanup...');
-  Ticket.deleteMany({})
+  User.deleteMany({})
+  .then(() => {
+    console.log('Users deleted');
+    return Ticket.deleteMany({});
+  })
   .then(() => {
     console.log('Tickets deleted');
     return Message.deleteMany({});
